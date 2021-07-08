@@ -9,7 +9,10 @@ class RipConf:
             # init new config file
             print("creating... " + conf_file_name)
             props_conf['keys'] = {
-                'dns_key': "replace_with_takamaka_key_for_dns_update",
+                'dns_key': "aaaa-bbbb-eeee-ffff-rrrr-qqqq",
+                'api_key_number': '1',
+                'api_user': 'test',
+                'requested_domain': 'testdomain2',
                 'management_key': 'replace_with_takamaka_key_for_management'
             }
             props_conf['app'] = {
@@ -20,6 +23,10 @@ class RipConf:
             props_conf['app_debug'] = {
                 'bind_address': '0.0.0.0',
                 'bind_port': '13131'
+            }
+            props_conf['ddns_server'] = {
+                'delivery_url': "http://localhost:5000/update-dns",
+                'ip_retrieval_url': 'https://supportlink.ch/myip.php'
             }
             with open(conf_file_name, 'w') as configfile:
                 props_conf.write(configfile)
