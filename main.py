@@ -31,14 +31,18 @@ class CronJob(Resource):
     @staticmethod
     def get():
         print("cronjob called")
+        internal_inferfaces_conf = {}
         # get local inet configuration
         int_list = rn.list_interfaces()
         gws_list = rn.list_gateways()
         internal_interfaces = rn.descr_interfaces(int_list)
         internal_gateways = rn.descr_gateways(gws_list)
         # todo finire l'assemblaggio
-        print("Internal interfaces " + str(internal_interfaces))
-        print("Internal gateways " + str(internal_gateways))
+        # print("Internal interfaces " + str(internal_interfaces))
+        # print("Internal gateways " + str(internal_gateways))
+        internal_inferfaces_conf["interfaces"] = internal_interfaces
+        internal_inferfaces_conf["gateways"] = internal_gateways
+        print(str(internal_inferfaces_conf))
         # get external ip addr
         my_ext_ip = rr.retrieve_my_ip(props_conf['ddns_server']['ip_retrieval_url'])
         print(my_ext_ip)

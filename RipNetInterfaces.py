@@ -53,7 +53,15 @@ class RipNetInterfaces:
 
             try:
                 if "default" in gw_info.keys():
-                    d_res["gw_default"] = gw_info["default"]
+                    try:
+                        d_gw = {
+                            "addr": gw_info["default"][0] if gw_info["default"][0] is not None else None,
+                            "interface": gw_info["default"][1] if gw_info["default"][1] is not None else None
+                        }
+                        d_res["gw_default"] = d_gw
+
+                    except Exception as exc:
+                        print("exception reading default gateway" + str(exc))
 
                 for k in RipNetInterfaces.InetSystemAttr.keys():
                     if RipNetInterfaces.InetSystemAttr[k] in gw_info:
