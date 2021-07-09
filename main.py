@@ -46,7 +46,7 @@ class CronJob(Resource):
         # get external ip addr
         my_ext_ip = rr.retrieve_my_ip(props_conf['ddns_server']['ip_retrieval_url'])
         print(my_ext_ip)
-        return {"result": "job called", "request": "cronjob"}, HTTPStatus.OK
+        return {"result": "job called", "request": "cronjob", "data": internal_inferfaces_conf}, HTTPStatus.OK
 
 
 api = Api(app)
