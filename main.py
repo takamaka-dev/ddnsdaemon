@@ -31,22 +31,23 @@ class CronJob(Resource):
     @staticmethod
     def get():
         print("cronjob called")
-        internal_inferfaces_conf = {}
+        ip_and_inferfaces_conf = {}
         # get local inet configuration
         int_list = rn.list_interfaces()
         gws_list = rn.list_gateways()
         internal_interfaces = rn.descr_interfaces(int_list)
         internal_gateways = rn.descr_gateways(gws_list)
+        my_ext_ip = rr.retrieve_my_ip(props_conf['ddns_server']['ip_retrieval_url'])
         # todo finire l'assemblaggio
         # print("Internal interfaces " + str(internal_interfaces))
         # print("Internal gateways " + str(internal_gateways))
-        internal_inferfaces_conf["interfaces"] = internal_interfaces
-        internal_inferfaces_conf["gateways"] = internal_gateways
-        print(str(internal_inferfaces_conf))
+        ip_and_inferfaces_conf["interfaces"] = internal_interfaces
+        ip_and_inferfaces_conf["gateways"] = internal_gateways
+        # print(my_ext_ip.exploded)
+        ip_and_inferfaces_conf["ext_ip"] = my_ext_ip.exploded if my_ext_ip is not None else None
+        print(str(ip_and_inferfaces_conf))
         # get external ip addr
-        my_ext_ip = rr.retrieve_my_ip(props_conf['ddns_server']['ip_retrieval_url'])
-        print(my_ext_ip)
-        return {"result": "job called", "request": "cronjob", "data": internal_inferfaces_conf}, HTTPStatus.OK
+        return {"result": "job called", "request": "cronjob", "data": ip_and_inferfaces_conf}, HTTPStatus.OK
 
 
 api = Api(app)
