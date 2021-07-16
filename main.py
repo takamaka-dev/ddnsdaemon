@@ -1,7 +1,7 @@
 import configparser
 from http import HTTPStatus
 
-from flask import Flask
+from flask import Flask, json
 from flask_restful import Resource, Api
 
 import RipConf
@@ -31,7 +31,7 @@ class CronJob(Resource):
     @staticmethod
     def get():
         print("cronjob called")
-        ip_and_inferfaces_conf = {}
+        ip_and_interfaces_conf = {}
         # get local inet configuration
         int_list = rn.list_interfaces()
         gws_list = rn.list_gateways()
@@ -41,13 +41,23 @@ class CronJob(Resource):
         # todo finire l'assemblaggio
         # print("Internal interfaces " + str(internal_interfaces))
         # print("Internal gateways " + str(internal_gateways))
-        ip_and_inferfaces_conf["interfaces"] = internal_interfaces
-        ip_and_inferfaces_conf["gateways"] = internal_gateways
+        ip_and_interfaces_conf["interfaces"] = internal_interfaces
+        ip_and_interfaces_conf["gateways"] = internal_gateways
         # print(my_ext_ip.exploded)
-        ip_and_inferfaces_conf["ext_ip"] = my_ext_ip.exploded if my_ext_ip is not None else None
-        print(str(ip_and_inferfaces_conf))
+        ip_and_interfaces_conf["ext_ip"] = my_ext_ip.exploded if my_ext_ip is not None else None
+        ip_and_interfaces_conf["request-type"] = "update-machine-registration"
+        res = RipRepack.RipRequest.json_hmac_request(destination_server_url=props_conf['ddns_server']['delivery_url'],
+                                                     api_user=props_conf['keys']['api_user'],
+                                                     api_key=props_conf['keys']['dns_key'],
+                                                     api_key_number=props_conf['keys']['api_key_number'],
+                                                     dictionary_payload=ip_and_interfaces_conf,
+                                                     submit_method="POST")
+        print(res)
+        # print(str(ip_and_inferfaces_conf))
         # get external ip addr
-        return {"result": "job called", "request": "cronjob", "data": ip_and_inferfaces_conf}, HTTPStatus.OK
+        # return {"result": "job called", "request": "cronjob", "data": ip_and_inferfaces_conf}, HTTPStatus.OK
+        j_data = json.loads(res.text)
+        return j_data, res.status_code
 
 
 api = Api(app)

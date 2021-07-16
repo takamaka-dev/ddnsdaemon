@@ -25,7 +25,7 @@ class RipConf:
                 'bind_port': '13131'
             }
             props_conf['ddns_server'] = {
-                'delivery_url': "http://localhost:5000/update-dns",
+                'delivery_url': "http://localhost:6000/update-registration",
                 'ip_retrieval_url': 'https://supportlink.ch/myip.php'
             }
             with open(conf_file_name, 'w') as configfile:

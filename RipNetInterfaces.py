@@ -75,7 +75,7 @@ class RipNetInterfaces:
                                 gateways["gw_" + str(i)] = {
                                     "addr": gw_el[0] if gw_el[0] is not None else None,
                                     "interface": gw_el[1] if gw_el[1] is not None else None,
-                                    "dafault": gw_el[2] if gw_el[2] is not None else None,
+                                    "default": gw_el[2] if gw_el[2] is not None else None,
                                 }
                                 i += 1
                             d_res["all_gateways"] = gateways
