@@ -5,6 +5,9 @@ from configparser import ConfigParser
 class RipConf:
     @staticmethod
     def load_app_conf(props_conf: ConfigParser, conf_file_name: str):
+
+        print("---------------- result:" + str(conf_file_name))
+        print("---------------- result:" + str(os.path.isfile(conf_file_name)))
         if not os.path.isfile(conf_file_name):
             # init new config file
             print("creating... " + conf_file_name)

@@ -8,6 +8,7 @@ import RipConf
 import RipNetInterfaces
 import RipRepack
 import RipWelcome
+import daemon
 
 rn = RipNetInterfaces.RipNetInterfaces
 rr = RipRepack.RipRequest
@@ -64,6 +65,10 @@ api = Api(app)
 api.add_resource(RipWelcome.RipWelcome, '/')
 api.add_resource(CronJob, '/cronjob')
 
+
+
+
+
 if __name__ == "__main__":
 
     print("Mode " + props_conf['app']['debug'])
@@ -78,3 +83,5 @@ if __name__ == "__main__":
             app,
             host=props_conf['app']['bind_address'],
             port=props_conf['app']['bind_port'])
+
+
