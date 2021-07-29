@@ -1,4 +1,5 @@
 import os
+import uuid
 from configparser import ConfigParser
 
 
@@ -29,7 +30,8 @@ class RipConf:
             }
             props_conf['ddns_server'] = {
                 'delivery_url': "http://localhost:6000/update-registration",
-                'ip_retrieval_url': 'https://supportlink.ch/myip.php'
+                'ip_retrieval_url': 'https://supportlink.ch/myip.php',
+                'uuid': uuid.uuid4()
             }
             with open(conf_file_name, 'w') as configfile:
                 props_conf.write(configfile)
