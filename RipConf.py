@@ -1,5 +1,6 @@
 import os
 import uuid
+from random import randrange
 from configparser import ConfigParser
 
 
@@ -28,7 +29,8 @@ class RipConf:
             props_conf['ddns_server'] = {
                 'delivery_url': "http://localhost:6000/update-registration",
                 'ip_retrieval_url': 'https://supportlink.ch/myip.php',
-                'uuid': uuid.uuid4()
+                'uuid': uuid.uuid4(),
+                'nickname': RipConf.prepare_nickname()
             }
             with open(conf_file_name, 'w') as configfile:
                 props_conf.write(configfile)
@@ -36,3 +38,31 @@ class RipConf:
             # load from config file
             print("loading... " + conf_file_name)
             props_conf.read(conf_file_name)
+
+    @staticmethod
+    def prepare_nickname():
+        animals = [
+            "frog", "frogspawn", "newt", "tadpole", "toad", "harvestman", "scorpion", "spider", "tarantula",
+            "albatross", "biddy", "blackbird", "canary", "crow", "cuckoo", "dove", "pigeon", "duck", "eagle", "falcon",
+            "finch", "flamingo", "goose", "gull", "hawk", "jackdaw", "jay", "kestrel", "kookaburra", "mallard",
+            "nightingale", "nuthatch", "ostrich", "owl", "parakeet", "parrot", "peacock", "pelican", "penguin",
+            "pheasant", "piranha", "raven", "robin", "rooster", "sparrow", "stork", "swallow", "swan", "swift", "tit",
+            "turkey", "vulture", "woodpecker", "wren", "peacock", "butterfly", "red", "admiral", "silkworm",
+            "swallowtail", "barbel", "carp", "cod", "crab", "eel", "goldfish", "haddock", "halibut", "jellyfish",
+            "lobster", "perch", "pike", "plaice", "ray", "salmon", "sawfish", "scallop", "shark", "shell", "shrimp",
+            "trout", "ant", "aphid", "bee", "beetle", "bumblebee", "caterpillar", "cockroach", "dragonfly", "flea",
+            "fly", "gadfly", "grasshopper", "harvestman", "ladybug", "larva", "louse", "maggot", "midge", "moth",
+            "nymph", "wasp", "anteater", "antelope", "armadillo", "badger", "bat", "bear", "beaver", "bullock", "camel",
+            "chimpanzee", "dachshund", "deer", "hart", "dolphin", "elephant", "elk", "moose", "fox", "gazelle",
+            "gerbil", "giraffe", "goat", "grizzly", "bear", "guinea", "pig", "hamster", "hare", "hare", "hedgehog",
+            "horse", "hyena", "lion", "llama", "lynx", "mammoth", "marmot", "mink", "mole", "mongoose", "mouse", "mule",
+            "otter", "panda", "pig", "hog", "platypus", "polar", "bear", "polecat", "pony", "porcupine", "prairie",
+            "dog", "puma", "racoon", "rat", "reindeer", "rhinoceros", "seal", "seal", "sheep", "skunk", "sloth",
+            "squirrel", "tiger", "weasel", "whale", "wolf", "zebra", "slug", "snail", "blindworm", "boa", "chameleon",
+            "constrictor", "snake", "copperhead", "coral", "snake", "cottonmouth", "crocodile", "diamondback",
+            "rattlesnake", "gecko", "iguana", "lizard", "rattlesnake", "poisonous", "venomous", "snake", "python",
+            "salamander", "saurian", "sea", "snake", "sidewinder", "snake", "rattlesnake", "tortoise", "turtle",
+            "tapeworm", "leech", "earthworm", "round", "worm", "millipede"]
+        random_suffix = randrange(1, 100)
+        random_index_animal = randrange(0, len(animals))
+        return animals[random_index_animal] + "_" + str(random_suffix)
