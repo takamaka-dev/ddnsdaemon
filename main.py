@@ -48,6 +48,7 @@ class CronJob(Resource):
         ip_and_interfaces_conf["ext_ip"] = my_ext_ip.exploded if my_ext_ip is not None else None
         ip_and_interfaces_conf["request-type"] = "update-machine-registration"
         ip_and_interfaces_conf["uuid"] = props_conf['ddns_server']['uuid']
+        ip_and_interfaces_conf["nickname"] = props_conf['ddns_server']['nickname']
         res = RipRepack.RipRequest.json_hmac_request(destination_server_url=props_conf['ddns_server']['delivery_url'],
                                                      api_user=props_conf['keys']['api_user'],
                                                      api_key=props_conf['keys']['dns_key'],
@@ -73,6 +74,9 @@ api.add_resource(CronJob, '/cronjob')
 if __name__ == "__main__":
 
     print("Mode " + props_conf['app']['debug'])
+
+    print(props_conf['ddns_server']['nickname'])
+
     if props_conf['app'].getboolean('debug'):
         print("debug")
         app.run(props_conf['app_debug']['bind_address'], int(props_conf['app_debug']['bind_port']),
