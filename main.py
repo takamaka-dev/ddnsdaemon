@@ -54,7 +54,7 @@ class CronJob(Resource):
                                                      api_key_number=props_conf['keys']['api_key_number'],
                                                      dictionary_payload=ip_and_interfaces_conf,
                                                      submit_method="POST")
-        print(res)
+        print(res.text)
         # print(str(ip_and_inferfaces_conf))
         # get external ip addr
         # return {"result": "job called", "request": "cronjob", "data": ip_and_inferfaces_conf}, HTTPStatus.OK
