@@ -1,4 +1,9 @@
+import json
+import sys
+
 import netifaces
+import platform
+import subprocess
 
 
 class RipNetInterfaces:
@@ -111,3 +116,33 @@ class RipNetInterfaces:
 
             interf_dict = RipNetInterfaces.collect_gw_to_dict(gws)
             return interf_dict
+
+    @staticmethod
+    def get_platform_details() -> dict:
+        res = {}
+        res['hostname'] = platform.node()
+        res['platform'] = platform.platform()
+        res['python-compiler'] = platform.python_compiler()
+        res['machine'] = platform.machine()
+        res['release'] = platform.release()
+        res['architecture'] = platform.architecture()
+        res['java_ver'] = platform.java_ver()
+        res['libc_ver'] = platform.libc_ver()
+        res['system'] = platform.system()
+        res['uname'] = platform.uname()
+        res['mac-ver'] = platform.mac_ver()
+        res['win32-edition'] = platform.win32_edition()
+        res['win32-is-iot'] = platform.win32_is_iot()
+        res['processor'] = platform.processor()
+        res['win32-ver'] = platform.win32_ver()
+        return res
+
+    @staticmethod
+    def get_default_java() -> dict:
+        res = {}
+        try:
+            res['java'] = subprocess.check_output(['java', '-version'], stderr=subprocess.STDOUT).decode(
+                sys.stdout.encoding).replace("\n", " | ")
+        except Exception as exc:
+            res["java_check_error"] = str(exc)
+        return res

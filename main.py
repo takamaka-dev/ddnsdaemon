@@ -49,13 +49,17 @@ class CronJob(Resource):
         ip_and_interfaces_conf["request-type"] = "update-machine-registration"
         ip_and_interfaces_conf["uuid"] = props_conf['ddns_server']['uuid']
         ip_and_interfaces_conf["nickname"] = props_conf['ddns_server']['nickname']
+        ip_and_interfaces_conf["platform"] = rn.get_platform_details()
+        ip_and_interfaces_conf["java"] = rn.get_default_java()
+        print("PLATFORM " + str(ip_and_interfaces_conf["platform"]))
+        print("JAVA " + str(ip_and_interfaces_conf["java"]))
         res = RipRepack.RipRequest.json_hmac_request(destination_server_url=props_conf['ddns_server']['delivery_url'],
                                                      api_user=props_conf['keys']['api_user'],
                                                      api_key=props_conf['keys']['dns_key'],
                                                      api_key_number=props_conf['keys']['api_key_number'],
                                                      dictionary_payload=ip_and_interfaces_conf,
                                                      submit_method="POST")
-        print(res)
+        print(res.text)
         # print(str(ip_and_inferfaces_conf))
         # get external ip addr
         # return {"result": "job called", "request": "cronjob", "data": ip_and_inferfaces_conf}, HTTPStatus.OK
