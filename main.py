@@ -53,7 +53,7 @@ class CronJob(Resource):
         ip_and_interfaces_conf["load"] = rn.get_sys_load()
         print("PLATFORM " + str(ip_and_interfaces_conf["platform"]))
         print("JAVA " + str(ip_and_interfaces_conf["java"]))
-        print("LOAD \n" + json.dumps(ip_and_interfaces_conf["load"] + "\n"))
+        print("LOAD \n" + json.dumps(ip_and_interfaces_conf["load"]) + "\n")
         res = RipRepack.RipRequest.json_hmac_request(destination_server_url=props_conf['ddns_server']['delivery_url'],
                                                      api_user=props_conf['keys']['api_user'],
                                                      api_key=props_conf['keys']['dns_key'],
