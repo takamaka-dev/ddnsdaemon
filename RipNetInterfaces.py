@@ -5,6 +5,8 @@ import netifaces
 import platform
 import subprocess
 
+import psutil as psutil
+
 
 class RipNetInterfaces:
     ListString = list[str]
@@ -145,4 +147,25 @@ class RipNetInterfaces:
                 sys.stdout.encoding).replace("\n", " | ")
         except Exception as exc:
             res["java_check_error"] = str(exc)
+        return res
+
+    @staticmethod
+    def get_sys_load() -> dict:
+        res = {}
+        try:
+            res["cpu_percent"] = psutil.cpu_percent()
+            res["virtual_memory"] = psutil.virtual_memory()
+            res["swap_memory"] = psutil.swap_memory()
+            res["cpu_count"] = psutil.cpu_count()
+            res["cpu_freq"] = psutil.cpu_freq()
+            res["cpu_stats"] = psutil.cpu_stats()
+            res["cpu_times"] = psutil.cpu_times()
+            res["cpu_times_percent"] = psutil.cpu_times_percent()
+            res["disk_io_counters"] = psutil.disk_io_counters()
+            res["disk_usage"] = psutil.disk_usage("/")
+            res["boot_time"] = psutil.boot_time()
+            res["users"] = psutil.users()
+            res["sensors_temperatures"] = psutil.sensors_temperatures(fahrenheit=False)
+        except Exception as exc:
+            res["res_error"] = str(exc)
         return res
