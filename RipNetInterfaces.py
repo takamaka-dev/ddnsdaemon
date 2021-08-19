@@ -30,7 +30,7 @@ class RipNetInterfaces:
         psutil.boot_time,
         psutil.users,
         # (psutil.sensors_temperatures, False),
-        (psutil.sensors_temperatures, None, {"fahrenheit": False}),
+        (getattr(psutil, "sensors_temperatures"), None, {"fahrenheit": False}),
         # (psutil.disk_io_counters, (False, False)),
         # (psutil.disk_io_counters, None, {"perdisk": False, "nowrap": False}),
         # (psutil.disk_io_counters, True, {"nowrap": False}),
