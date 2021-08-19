@@ -15,27 +15,52 @@ from RipFunCall import RipFunCall
 class RipNetInterfaces:
     ListString = list[str]
     InetSystemAttr = {v: k for k, v in netifaces.address_families.items()}
-    LoadArray = [
-        psutil.cpu_percent,
-        psutil.virtual_memory,
-        psutil.swap_memory,
-        psutil.cpu_count,
-        psutil.cpu_freq,
-        psutil.cpu_stats,
-        psutil.cpu_times,
-        psutil.cpu_times_percent,
-        psutil.disk_io_counters,
-        (psutil.disk_usage, "/"),
-        (psutil.disk_usage, "/mnt/linExtra"),
-        psutil.boot_time,
-        psutil.users,
-        # (psutil.sensors_temperatures, False),
-        (getattr(psutil, "sensors_temperatures"), None, {"fahrenheit": False}),
-        # (psutil.disk_io_counters, (False, False)),
-        # (psutil.disk_io_counters, None, {"perdisk": False, "nowrap": False}),
-        # (psutil.disk_io_counters, True, {"nowrap": False}),
+    # LoadArray = [
+    #     psutil.cpu_percent,
+    #     psutil.virtual_memory,
+    #     psutil.swap_memory,
+    #     psutil.cpu_count,
+    #     psutil.cpu_freq,
+    #     psutil.cpu_stats,
+    #     psutil.cpu_times,
+    #     psutil.cpu_times_percent,
+    #     psutil.disk_io_counters,
+    #     (psutil.disk_usage, "/"),
+    #     (psutil.disk_usage, "/mnt/linExtra"),
+    #     psutil.boot_time,
+    #     psutil.users,
+    #     # (psutil.sensors_temperatures, False),
+    #     (getattr(psutil, "sensors_temperatures"), None, {"fahrenheit": False}),
+    #     # (psutil.disk_io_counters, (False, False)),
+    #     # (psutil.disk_io_counters, None, {"perdisk": False, "nowrap": False}),
+    #     # (psutil.disk_io_counters, True, {"nowrap": False}),
+    #
+    # ]
 
+    SafeLoadArray = [
+        (psutil, "cpu_percent"),
+        (psutil, "sensors_temperatures", None, {"fahrenheit": False}),
     ]
+
+    # psutil.cpu_percent,
+    # psutil.virtual_memory,
+    # psutil.swap_memory,
+    # psutil.cpu_count,
+    # psutil.cpu_freq,
+    # psutil.cpu_stats,
+    # psutil.cpu_times,
+    # psutil.cpu_times_percent,
+    # psutil.disk_io_counters,
+    # (psutil.disk_usage, "/"),
+    # (psutil.disk_usage, "/mnt/linExtra"),
+    # psutil.boot_time,
+    # psutil.users,
+    # # (psutil.sensors_temperatures, False),
+    # (getattr(psutil, "sensors_temperatures"), None, {"fahrenheit": False}),
+    # # (psutil.disk_io_counters, (False, False)),
+    # # (psutil.disk_io_counters, None, {"perdisk": False, "nowrap": False}),
+    # # (psutil.disk_io_counters, True, {"nowrap": False}),
+    # ]
 
     @staticmethod
     def list_interfaces() -> ListString:
@@ -182,7 +207,8 @@ class RipNetInterfaces:
     def get_sys_load() -> dict:
         res = {}
         try:
-            f_a_r = RipFunCall.wrap_fun_array_duplicate_rename(fun_arr=RipNetInterfaces.LoadArray)
+            # f_a_r = RipFunCall.wrap_fun_array_duplicate_rename(fun_arr=RipNetInterfaces.LoadArray)
+            f_a_r = RipFunCall.safe_wrap_fun_array_duplicate_rename(fun_arr=RipNetInterfaces.SafeLoadArray)
             print("FAR: " + json.dumps(f_a_r))
             res["load_check"] = f_a_r
             # res["cpu_percent"] = psutil.cpu_percent()
