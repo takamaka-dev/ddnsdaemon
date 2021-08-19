@@ -139,10 +139,13 @@ class RipFunCall:
         for fun_1 in fun_arr:
             if type(fun_1) is tuple and len(fun_1) > 1:
                 try:
-                    if len(fun_1) == 2:
-                        fun = getattr(fun_1[0], fun_1[1])
-                    else:
-                        fun = (getattr(fun_1[0], fun_1[1]),) + fun_1[2:]
+                    try:
+                        if len(fun_1) == 2:
+                            fun = getattr(fun_1[0], fun_1[1])
+                        else:
+                            fun = (getattr(fun_1[0], fun_1[1]),) + fun_1[2:]
+                    except AttributeError as at:
+                        res["err_elem_" + str(i)] = "unsupporte function call " + str(at)
 
                     print(str(fun))
                     the_fun = None
