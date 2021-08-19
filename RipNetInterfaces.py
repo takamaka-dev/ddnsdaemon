@@ -33,7 +33,7 @@ class RipNetInterfaces:
         (psutil.sensors_temperatures, None, {"fahrenheit": False}),
         # (psutil.disk_io_counters, (False, False)),
         # (psutil.disk_io_counters, None, {"perdisk": False, "nowrap": False}),
-        (psutil.disk_io_counters, True, {"nowrap": False}),
+        # (psutil.disk_io_counters, True, {"nowrap": False}),
 
     ]
 
@@ -181,29 +181,30 @@ class RipNetInterfaces:
     @staticmethod
     def get_sys_load() -> dict:
         res = {}
-        f_a_r = RipFunCall.wrap_fun_array_duplicate_rename(fun_arr=RipNetInterfaces.LoadArray)
-        print("FAR: " + json.dumps(f_a_r))
         try:
-            res["cpu_percent"] = psutil.cpu_percent()
-            r, e = RipFunCall.wrap_fun(psutil.cpu_percent)
-            print("R: " + str(r) + " E: " + str(e))
-            res["virtual_memory"] = psutil.virtual_memory()
-            res["swap_memory"] = psutil.swap_memory()
-            res["cpu_count"] = psutil.cpu_count()
-            res["cpu_freq"] = psutil.cpu_freq()
-            res["cpu_stats"] = psutil.cpu_stats()
-            res["cpu_times"] = psutil.cpu_times()
-            res["cpu_times_percent"] = psutil.cpu_times_percent()
-            res["disk_io_counters"] = psutil.disk_io_counters()
-            res["disk_usage"] = psutil.disk_usage("/")
-            print("DRY CALL ------------------------------")
-            # compl_call = (psutil.disk_io_counters, None, {"path": "/"})
-            # r, e = RipFunCall.wrap_fun(compl_call[0], compl_call[1:])
+            f_a_r = RipFunCall.wrap_fun_array_duplicate_rename(fun_arr=RipNetInterfaces.LoadArray)
+            print("FAR: " + json.dumps(f_a_r))
+            res["load_check"] = f_a_r
+            # res["cpu_percent"] = psutil.cpu_percent()
+            # r, e = RipFunCall.wrap_fun(psutil.cpu_percent)
             # print("R: " + str(r) + " E: " + str(e))
-            print("DRY CALL ------------------------------ END")
-            res["boot_time"] = psutil.boot_time()
-            res["users"] = psutil.users()
-            res["sensors_temperatures"] = psutil.sensors_temperatures(fahrenheit=False)
+            # res["virtual_memory"] = psutil.virtual_memory()
+            # res["swap_memory"] = psutil.swap_memory()
+            # res["cpu_count"] = psutil.cpu_count()
+            # res["cpu_freq"] = psutil.cpu_freq()
+            # res["cpu_stats"] = psutil.cpu_stats()
+            # res["cpu_times"] = psutil.cpu_times()
+            # res["cpu_times_percent"] = psutil.cpu_times_percent()
+            # res["disk_io_counters"] = psutil.disk_io_counters()
+            # res["disk_usage"] = psutil.disk_usage("/")
+            # print("DRY CALL ------------------------------")
+            # # compl_call = (psutil.disk_io_counters, None, {"path": "/"})
+            # # r, e = RipFunCall.wrap_fun(compl_call[0], compl_call[1:])
+            # # print("R: " + str(r) + " E: " + str(e))
+            # print("DRY CALL ------------------------------ END")
+            # res["boot_time"] = psutil.boot_time()
+            # res["users"] = psutil.users()
+            # res["sensors_temperatures"] = psutil.sensors_temperatures(fahrenheit=False)
         except Exception as exc:
             res["load_check_errors"] = str(exc)
         return res

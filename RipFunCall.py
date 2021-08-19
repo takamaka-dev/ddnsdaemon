@@ -17,12 +17,12 @@ class RipFunCall:
         res = None
         err = None
         if fun is None:
-            print("NONE FUN")
+            # print("NONE FUN")
             err = ("Null function", "Null function")
         else:
             try:
-                print("FUN: " + fun.__name__ + " ARGS: " + str(args) + " KWARGS " + str(kwargs))
-                print("plain args " + str(args))
+                # print("FUN: " + fun.__name__ + " ARGS: " + str(args) + " KWARGS " + str(kwargs))
+                # print("plain args " + str(args))
                 # print("plain kwargs " + str(kwargs))
                 if args == ():
                     # print("plain call " + str(fun()))
@@ -45,7 +45,7 @@ class RipFunCall:
                     # print("DEL C " + str(fun.__name__) + " END")
 
             except Exception as exc:
-                print("DEL SEGUGIO " + str(fun.__name__) + "EXCEPTION" + str(exc))
+                # print("DEL SEGUGIO " + str(fun.__name__) + "EXCEPTION" + str(exc))
                 err = (str(fun.__name__), str(exc))
         return res, err
 
@@ -61,22 +61,22 @@ class RipFunCall:
 
         for fun in fun_arr:
             try:
-                print(type(fun))
+                # print(type(fun))
                 the_fun = None
                 fun_key = ""
                 fun_args_wargs = None
                 if callable(fun):
-                    print("BUILTIN: " + fun.__name__)
+                    # print("BUILTIN: " + fun.__name__)
                     fun_key = str(fun.__name__)
                     the_fun = fun
                 elif type(fun) is tuple:
-                    print("ID: " + str(i) + " IS TUPLE ")
+                    # print("ID: " + str(i) + " IS TUPLE ")
                     if len(fun) < 2 or len(fun) > 3:
                         res["err_elem_" + str(i)] = "incorrect number of parameters for element " + str(
                             i) + " in the function array"
                     else:
                         if callable(fun[0]):
-                            fun_key = str(fun[0])
+                            fun_key = str(fun[0].__name__)
                             the_fun = fun[0]
                             fun_args_wargs = fun[1:]
 
@@ -88,10 +88,10 @@ class RipFunCall:
                         e = None
                         if fun_args_wargs is not None:
                             if len(fun_args_wargs) == 1:
-                                print("RUN 1 " + str(fun_args_wargs))
+                                # print("RUN 1 " + str(fun_args_wargs))
                                 r, e = RipFunCall.wrap_fun(the_fun, fun_args_wargs[0])
                             elif len(fun_args_wargs) == 2:
-                                print("RUN 2 " + str(fun_args_wargs))
+                                # print("RUN 2 " + str(fun_args_wargs))
                                 r, e = RipFunCall.wrap_fun(the_fun, fun_args_wargs[0], kwargs=fun_args_wargs[1])
                                 # r, e = RipFunCall.wrap_fun(the_fun, fun_args_wargs)
                             else:
