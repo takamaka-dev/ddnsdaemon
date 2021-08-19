@@ -1,3 +1,4 @@
+import builtins
 import json
 import sys
 
@@ -6,11 +7,35 @@ import platform
 import subprocess
 
 import psutil as psutil
+from psutil import cpu_percent
+
+from RipFunCall import RipFunCall
 
 
 class RipNetInterfaces:
     ListString = list[str]
     InetSystemAttr = {v: k for k, v in netifaces.address_families.items()}
+    LoadArray = [
+        psutil.cpu_percent,
+        psutil.virtual_memory,
+        psutil.swap_memory,
+        psutil.cpu_count,
+        psutil.cpu_freq,
+        psutil.cpu_stats,
+        psutil.cpu_times,
+        psutil.cpu_times_percent,
+        psutil.disk_io_counters,
+        (psutil.disk_usage, "/"),
+        (psutil.disk_usage, "/mnt/linExtra"),
+        psutil.boot_time,
+        psutil.users,
+        # (psutil.sensors_temperatures, False),
+        (psutil.sensors_temperatures, None, {"fahrenheit": False}),
+        # (psutil.disk_io_counters, (False, False)),
+        # (psutil.disk_io_counters, None, {"perdisk": False, "nowrap": False}),
+        (psutil.disk_io_counters, True, {"nowrap": False}),
+
+    ]
 
     @staticmethod
     def list_interfaces() -> ListString:
@@ -122,21 +147,25 @@ class RipNetInterfaces:
     @staticmethod
     def get_platform_details() -> dict:
         res = {}
-        res['hostname'] = platform.node()
-        res['platform'] = platform.platform()
-        res['python-compiler'] = platform.python_compiler()
-        res['machine'] = platform.machine()
-        res['release'] = platform.release()
-        res['architecture'] = platform.architecture()
-        res['java_ver'] = platform.java_ver()
-        res['libc_ver'] = platform.libc_ver()
-        res['system'] = platform.system()
-        res['uname'] = platform.uname()
-        res['mac-ver'] = platform.mac_ver()
-        res['win32-edition'] = platform.win32_edition()
-        res['win32-is-iot'] = platform.win32_is_iot()
-        res['processor'] = platform.processor()
-        res['win32-ver'] = platform.win32_ver()
+        try:
+            res['hostname'] = platform.node()
+
+            res['platform'] = platform.platform()
+            res['python-compiler'] = platform.python_compiler()
+            res['machine'] = platform.machine()
+            res['release'] = platform.release()
+            res['architecture'] = platform.architecture()
+            res['java_ver'] = platform.java_ver()
+            res['libc_ver'] = platform.libc_ver()
+            res['system'] = platform.system()
+            res['uname'] = platform.uname()
+            res['mac-ver'] = platform.mac_ver()
+            res['win32-edition'] = platform.win32_edition()
+            res['win32-is-iot'] = platform.win32_is_iot()
+            res['processor'] = platform.processor()
+            res['win32-ver'] = platform.win32_ver()
+        except Exception as exc:
+            res["platform_check_error"] = str(exc)
         return res
 
     @staticmethod
@@ -152,8 +181,12 @@ class RipNetInterfaces:
     @staticmethod
     def get_sys_load() -> dict:
         res = {}
+        f_a_r = RipFunCall.wrap_fun_array_duplicate_rename(fun_arr=RipNetInterfaces.LoadArray)
+        print("FAR: " + json.dumps(f_a_r))
         try:
             res["cpu_percent"] = psutil.cpu_percent()
+            r, e = RipFunCall.wrap_fun(psutil.cpu_percent)
+            print("R: " + str(r) + " E: " + str(e))
             res["virtual_memory"] = psutil.virtual_memory()
             res["swap_memory"] = psutil.swap_memory()
             res["cpu_count"] = psutil.cpu_count()
@@ -163,9 +196,14 @@ class RipNetInterfaces:
             res["cpu_times_percent"] = psutil.cpu_times_percent()
             res["disk_io_counters"] = psutil.disk_io_counters()
             res["disk_usage"] = psutil.disk_usage("/")
+            print("DRY CALL ------------------------------")
+            # compl_call = (psutil.disk_io_counters, None, {"path": "/"})
+            # r, e = RipFunCall.wrap_fun(compl_call[0], compl_call[1:])
+            # print("R: " + str(r) + " E: " + str(e))
+            print("DRY CALL ------------------------------ END")
             res["boot_time"] = psutil.boot_time()
             res["users"] = psutil.users()
             res["sensors_temperatures"] = psutil.sensors_temperatures(fahrenheit=False)
         except Exception as exc:
-            res["res_error"] = str(exc)
+            res["load_check_errors"] = str(exc)
         return res
