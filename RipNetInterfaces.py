@@ -40,6 +40,17 @@ class RipNetInterfaces:
     SafeLoadArray = [
         (psutil, "cpu_percent"),
         (psutil, "sensors_temperatures", None, {"fahrenheit": False}),
+        (psutil, "virtual_memory"),
+        (psutil, "swap_memory"),
+        (psutil, "cpu_count"),
+        (psutil, "cpu_freq"),
+        (psutil, "cpu_stats"),
+        (psutil, "cpu_times"),
+        (psutil, "cpu_times_percent"),
+        (psutil, "disk_io_counters"),
+        (psutil, "disk_usage", "/"),
+        (psutil, "boot_time"),
+        (psutil, "users"),
     ]
 
     # psutil.cpu_percent,
