@@ -219,7 +219,7 @@ class RipNetInterfaces:
         try:
             s_w_a_p = RipFunCall.safe_wrap_fun_array_duplicate_rename(fun_arr=RipNetInterfaces.SafeWrapPlatformArray)
             print("SWAP: " + json.dumps(s_w_a_p))
-            res["load_check"] = s_w_a_p
+            res["platform_check"] = s_w_a_p
 
             # res['hostname'] = platform.node()
             # res['platform'] = platform.platform()
