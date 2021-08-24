@@ -1,4 +1,5 @@
 import builtins
+import copy
 import json
 import sys
 
@@ -48,7 +49,8 @@ class RipNetInterfaces:
         (psutil, "cpu_times"),
         (psutil, "cpu_times_percent"),
         (psutil, "disk_io_counters"),
-        (psutil, "disk_usage", "/"),
+        (psutil, "disk_partitions", None, {"all": False}),  # only valid file system (skip cdrom...)
+        # (psutil, "disk_usage", "/"),
         (psutil, "boot_time"),
         (psutil, "users"),
     ]
@@ -70,6 +72,7 @@ class RipNetInterfaces:
         (platform, "processor"),
         (platform, "win32_ver"),
     ]
+
     # res['hostname'] = platform.node()
     # res['platform'] = platform.platform()
     # res['python-compiler'] = platform.python_compiler()
@@ -255,7 +258,48 @@ class RipNetInterfaces:
         res = {}
         try:
             # f_a_r = RipFunCall.wrap_fun_array_duplicate_rename(fun_arr=RipNetInterfaces.LoadArray)
-            f_a_r = RipFunCall.safe_wrap_fun_array_duplicate_rename(fun_arr=RipNetInterfaces.SafeLoadArray)
+
+            # (psutil, "disk_partitions", None, {"all": False})
+            # (psutil, "disk_usage", "/")
+            disk_list = RipFunCall.safe_wrap_fun_array_duplicate_rename(
+                fun_arr=[(psutil, "disk_partitions", None, {"all": False})])
+            print("Disk List " + str(disk_list))
+            extended_safe_list = None
+            try:
+                list_of_partitions = disk_list['disk_partitions!0']["result"]["disk_partitions"]
+                print("LIST PART: " + json.dumps(list_of_partitions))
+                part_list = []
+                for partition in list_of_partitions:
+                    try:
+                        """
+                        [
+                            "/dev/sdb5",
+                            "/",
+                            "xfs",
+                            "rw,relatime,attr2,inode64,logbufs=8,logbsize=32k,noquota",
+                            255,
+                            4096
+                        ]
+                        """
+                        if "rw" in partition[3]:
+                            print("RW PATH " + partition[0])
+                            part_list.append((psutil, "disk_usage", partition[0]))
+                    except Exception as exc:
+                        print("partition read error " + str(exc))
+                if len(part_list) <= 0:
+                    extended_safe_list = None
+                else:
+                    extended_safe_list = []
+                    for el in RipNetInterfaces.SafeLoadArray:
+                        extended_safe_list.append(el)
+                    for el in part_list:
+                        extended_safe_list.append(el)
+            except Exception as exc:
+                print("disk detection failure " + str(exc))
+            if extended_safe_list is None:
+                f_a_r = RipFunCall.safe_wrap_fun_array_duplicate_rename(fun_arr=RipNetInterfaces.SafeLoadArray)
+            else:
+                f_a_r = RipFunCall.safe_wrap_fun_array_duplicate_rename(fun_arr=extended_safe_list)
             print("FAR: " + json.dumps(f_a_r))
             res["load_check"] = f_a_r
             # res["cpu_percent"] = psutil.cpu_percent()
