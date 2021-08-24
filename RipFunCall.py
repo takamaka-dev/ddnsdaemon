@@ -191,7 +191,7 @@ class RipFunCall:
                             fun_name = str(fun_key) + "!" + str(seen_functions[fun_key])
                             res[fun_name] = {
                                 "call": fun_key,
-                                "id": fun_name,
+                                "id": seen_functions[fun_key],
                                 "result": r,
                                 "errors": str(e),
                                 "args": str(fun_args_wargs),

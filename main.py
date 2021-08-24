@@ -8,7 +8,6 @@ import RipConf
 import RipNetInterfaces
 import RipRepack
 import RipWelcome
-import daemon
 
 rn = RipNetInterfaces.RipNetInterfaces
 rr = RipRepack.RipRequest
