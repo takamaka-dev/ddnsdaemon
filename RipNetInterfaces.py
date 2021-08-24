@@ -283,7 +283,7 @@ class RipNetInterfaces:
                         """
                         if "rw" in partition[3]:
                             print("RW PATH " + partition[0])
-                            part_list.append((psutil, "disk_usage", partition[0]))
+                            part_list.append((psutil, "disk_usage", partition[1]))
                     except Exception as exc:
                         print("partition read error " + str(exc))
                 if len(part_list) <= 0:
