@@ -44,7 +44,7 @@ class RipNetInterfaces:
         (psutil, "virtual_memory"),
         (psutil, "swap_memory"),
         (psutil, "cpu_count"),
-        (psutil, "cpu_freq"),
+        (psutil, "cpu_freq", None, {"percpu": True}),
         (psutil, "cpu_stats"),
         (psutil, "cpu_times"),
         (psutil, "cpu_times_percent"),
