@@ -39,15 +39,16 @@ class RipNetInterfaces:
     # ]
 
     SafeLoadArray = [
-        (psutil, "cpu_percent", None, {"interval": 1, "percpu": True}),
+        (psutil, "cpu_percent", None, {"interval": 5, "percpu": True}),
         (psutil, "sensors_temperatures", None, {"fahrenheit": False}),
         (psutil, "virtual_memory"),
         (psutil, "swap_memory"),
         (psutil, "cpu_count"),
         (psutil, "cpu_freq", None, {"percpu": True}),
+        # (psutil, "cpu_freq", None, {"percpu": False}),
         (psutil, "cpu_stats"),
         (psutil, "cpu_times"),
-        (psutil, "cpu_times_percent"),
+        (psutil, "cpu_times_percent", None, {"interval": 5, "percpu": True}),
         (psutil, "disk_io_counters"),
         (psutil, "disk_partitions", None, {"all": False}),  # only valid file system (skip cdrom...)
         # (psutil, "disk_usage", "/"),
