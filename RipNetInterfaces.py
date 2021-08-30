@@ -70,7 +70,7 @@ class RipNetInterfaces:
         (platform, "mac_ver"),
         (platform, "win32_edition"),
         (platform, "win32_is_iot"),
-        (platform, "processor"),
+        # (platform, "processor"), #NetBSD Only
         (platform, "win32_ver"),
     ]
 
