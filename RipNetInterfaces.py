@@ -14,7 +14,7 @@ from RipFunCall import RipFunCall
 
 
 class RipNetInterfaces:
-    ListString = list[str()]
+    ListString = list[str]
     InetSystemAttr = {v: k for k, v in netifaces.address_families.items()}
     # LoadArray = [
     #     psutil.cpu_percent,
