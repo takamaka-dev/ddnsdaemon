@@ -12,9 +12,9 @@ class RipHelper:
     @staticmethod
     def get_digest_string(headers_dict, data_var):
         to_dig = [
-            str(headers_dict["HMAC_USER"]) if headers_dict["HMAC_USER"] is not None else "",
-            str(headers_dict["HMAC_LOOKUP"]) if headers_dict["HMAC_LOOKUP"] is not None else "",
-            str(headers_dict["HMAC_TIME"]) if headers_dict["HMAC_TIME"] is not None else "",
+            str(headers_dict["Hmac-User"]) if headers_dict["Hmac-User"] is not None else "",
+            str(headers_dict["Hmac-Lookup"]) if headers_dict["Hmac-Lookup"] is not None else "",
+            str(headers_dict["Hmac-Time"]) if headers_dict["Hmac-Time"] is not None else "",
             str(data_var) if data_var is not None else ""
         ]
         print(to_dig)
@@ -56,15 +56,15 @@ class RipRequest:
         payload = json.dumps(dictionary_payload)
         headers = {
             'Authorization': 'HMAC_PER_USER',
-            'HMAC_LOOKUP': str(int(api_key_number)),
-            'HMAC_USER': str(api_user),
-            'HMAC_VALUE': 'stub_to_be_replaced',
-            'HMAC_TIME': str(time.time()),
+            'Hmac-Lookup': str(int(api_key_number)),
+            'Hmac-User': str(api_user),
+            'Hmac-Value': 'stub_to_be_replaced',
+            'Hmac-Time': str(time.time()),
             'Content-Type': 'application/json'
         }
         hmac_dig_string = RipHelper.get_digest_string(headers, RipEncode.encode_string(payload))
         hm = RipHmac(api_key)
         calc_hmac = hm.get_digest(hmac_dig_string)
-        headers['HMAC_VALUE'] = calc_hmac
+        headers['Hmac-Value'] = calc_hmac
         response = requests.request(submit_method, destination_server_url, headers=headers, data=payload)
         return response
