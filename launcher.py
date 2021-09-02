@@ -10,5 +10,5 @@ if __name__ == "__main__":
     print("I'm launcher running on: " + curr_platform)
     print("APPDATA: " + str(win_appdata))
     if curr_platform == "Windows":
-        pid_file_path = os.path.join(win_appdata, "..")
+        pid_file_path = os.path.dirname(str(win_appdata)[:len("Roaming")])
         print("APPDATA DIR: " + str(pid_file_path))
