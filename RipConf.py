@@ -30,7 +30,7 @@ class RipConf:
                 'bind_port': '13131'
             }
             props_conf['ddns_server'] = {
-                'delivery_url': "http://localhost:6000/update-registration",
+                'delivery_url': "https://supportlink.takamaka.org:6000/ddns/",
                 'ip_retrieval_url': 'https://supportlink.ch/myip.php',
                 'uuid': uuid.uuid4(),
                 'nickname': RipConf.prepare_nickname()
