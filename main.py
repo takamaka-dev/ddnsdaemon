@@ -54,19 +54,25 @@ class CronJob(Resource):
         print("PLATFORM " + json.dumps(ip_and_interfaces_conf["platform"]))
         print("JAVA " + json.dumps(ip_and_interfaces_conf["java"]))
         print("LOAD \n" + json.dumps(ip_and_interfaces_conf["load"]) + "\n")
-
-        res = RipRepack.RipRequest.json_hmac_request(destination_server_url=props_conf['ddns_server']['delivery_url'],
-                                                     api_user=props_conf['keys']['api_user'],
-                                                     api_key=props_conf['keys']['dns_key'],
-                                                     api_key_number=props_conf['keys']['api_key_number'],
-                                                     dictionary_payload=ip_and_interfaces_conf,
-                                                     submit_method="POST")
-        print(res.text)
-        # print(str(ip_and_inferfaces_conf))
-        # get external ip addr
-        # return {"result": "job called", "request": "cronjob", "data": ip_and_inferfaces_conf}, HTTPStatus.OK
-        j_data = json.loads(res.text)
-        return j_data, res.status_code
+        res = None
+        try:
+            res = RipRepack.RipRequest.json_hmac_request(
+                destination_server_url=props_conf['ddns_server']['delivery_url'],
+                api_user=props_conf['keys']['api_user'],
+                api_key=props_conf['keys']['dns_key'],
+                api_key_number=props_conf['keys']['api_key_number'],
+                dictionary_payload=ip_and_interfaces_conf,
+                submit_method="POST")
+            print(res.text)
+            j_data = json.loads(res.text)
+            return j_data, res.status_code
+        except Exception as exc:
+            print("Error submitting data: " + str(exc))
+            if res is not None:
+                j_data = json.loads(res.text)
+                return j_data, res.status_code
+            else:
+                return {}, 500
 
 
 api = Api(app)
