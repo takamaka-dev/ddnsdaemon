@@ -1,5 +1,6 @@
 import os
 import platform
+from pathlib import Path
 
 linux_tempdir = "/tmp"
 
@@ -11,4 +12,6 @@ if __name__ == "__main__":
     print("APPDATA: " + str(win_appdata))
     if curr_platform == "Windows":
         pid_file_path = os.path.dirname(str(win_appdata)[:-len("Roaming")])
+        parent = Path(win_appdata).resolve().parent
         print("APPDATA DIR: " + str(pid_file_path))
+        print("parent: " + str(parent))
