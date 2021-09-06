@@ -109,14 +109,6 @@ class RipProcHelper:
                         except requests.exceptions.RequestException as e:  # This is the correct syntax
                             print("Server is not running with expected configuration " + str(e))
                             pid_exists = False
-                            # print("deleting invalid pid")
-                            # del_pid_file = RipFileHelper.RipFileHelper.delete_file(pid_file_path)
-                            # if del_pid_file is None:
-                            #     print("Error deleting pid file, aborting execution")
-                            #     exit(9)
-                            # else:
-                            #     print("invalid pid file deleted ")
-                            # raise SystemExit(e)
                     except Exception as exc:
                         print("error in watchdog route handling " + str(exc))
                         exit(8)
