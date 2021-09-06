@@ -48,7 +48,7 @@ class RipProcHelper:
             app_data = Path(win_appdata).resolve().parent
             print("APPDATA DIR: " + str(pid_file_path))
             print("parent: " + str(app_data))
-            pid_file_path = os.path.join(app_data, "Temp", RipFileHelper.RipFileHelper.pid_filename)
+            pid_file_path = os.path.join(app_data, "Local", "Temp", RipFileHelper.RipFileHelper.pid_filename)
         elif curr_platform == "Linux":
             pid_file_path = os.path.join(RipFileHelper.RipFileHelper.linux_tempdir,
                                          RipFileHelper.RipFileHelper.pid_filename)
