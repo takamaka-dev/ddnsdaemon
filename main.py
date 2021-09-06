@@ -93,7 +93,8 @@ api.add_resource(CronJob, '/cronjob')
 api.add_resource(Watchdog, '/watchdog')
 
 if __name__ == "__main__":
-    RipProcHelper.RipProcHelper.delete_invalid_pid_file_or_terminate()
+    RipProcHelper.RipProcHelper.delete_invalid_pid_file_or_terminate(
+        "http://localhost:" + props_conf['app_debug']['bind_port'] + "/watchdog")
     my_pid = os.getpid()
     print("My pid is " + str(my_pid))
     pid_path = RipProcHelper.RipProcHelper.get_pid_file_path_by_os()

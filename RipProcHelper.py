@@ -4,6 +4,8 @@ from pathlib import Path
 import platform
 from typing import Union
 
+import requests
+
 import RipFileHelper
 
 
@@ -17,6 +19,7 @@ class RipProcHelper:
             return False
         except Exception as exc:
             print("unexpected behaviour " + str(exc))
+            print("provide watchdog route")
             exit(7)
 
     @staticmethod
@@ -84,6 +87,39 @@ class RipProcHelper:
             else:
                 if watchdog_route is None:
                     pid_exists = RipProcHelper.check_pid_running_linux(saved_pid)
+                else:
+                    try:
+                        try:
+                            r = requests.get(watchdog_route)
+                            w_q_res = r.json()
+                            print("res " + str(w_q_res))
+                            if "my_pid" in w_q_res.keys():
+                                try:
+                                    watchdog_pid = int(w_q_res["my_pid"])
+                                    print("test valid pid " + str(watchdog_pid))
+                                    if watchdog_pid == saved_pid:
+                                        print("process is running with expected pid")
+                                        exit(0)
+                                    else:
+                                        print("pid mismatch")
+                                        pid_exists = False
+                                except Exception as exc:
+                                    print("invalid response from watchdog")
+                                    pid_exists = False
+                        except requests.exceptions.RequestException as e:  # This is the correct syntax
+                            print("Server is not running with expected configuration " + str(e))
+                            pid_exists = False
+                            # print("deleting invalid pid")
+                            # del_pid_file = RipFileHelper.RipFileHelper.delete_file(pid_file_path)
+                            # if del_pid_file is None:
+                            #     print("Error deleting pid file, aborting execution")
+                            #     exit(9)
+                            # else:
+                            #     print("invalid pid file deleted ")
+                            # raise SystemExit(e)
+                    except Exception as exc:
+                        print("error in watchdog route handling " + str(exc))
+                        exit(8)
                 print("pid exists and running " + str(pid_exists))
                 if pid_exists:
                     print("skip execution")
