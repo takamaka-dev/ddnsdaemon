@@ -50,7 +50,6 @@ class CronJob(Resource):
         internal_interfaces = rn.descr_interfaces(int_list)
         internal_gateways = rn.descr_gateways(gws_list)
         my_ext_ip = rr.retrieve_my_ip(props_conf['ddns_server']['ip_retrieval_url'])
-        # todo finire l'assemblaggio
         # print("Internal interfaces " + str(internal_interfaces))
         # print("Internal gateways " + str(internal_gateways))
         ip_and_interfaces_conf["interfaces"] = internal_interfaces
