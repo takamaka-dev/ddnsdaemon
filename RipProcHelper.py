@@ -9,7 +9,7 @@ import RipFileHelper
 
 class RipProcHelper:
     @staticmethod
-    def check_pid_running(pid: int) -> Union[None, bool]:
+    def check_pid_running_linux(pid: int) -> Union[None, bool]:
         try:
             os.kill(pid, 0)
             return True
@@ -17,7 +17,7 @@ class RipProcHelper:
             return False
         except Exception as exc:
             print("unexpected behaviour " + str(exc))
-            return None
+            exit(7)
 
     @staticmethod
     async def run(cmd):
@@ -55,7 +55,7 @@ class RipProcHelper:
         return pid_file_path
 
     @staticmethod
-    def delete_invalid_pid_file_or_terminate():
+    def delete_invalid_pid_file_or_terminate(watchdog_route: str = None):
         pid_file_path = RipProcHelper.get_pid_file_path_by_os()
         pid_file_exists = RipFileHelper.RipFileHelper.file_exists(pid_file_path)
 
@@ -82,7 +82,8 @@ class RipProcHelper:
                     print("unhandled exception in file removal ")
                     exit(5)
             else:
-                pid_exists = RipProcHelper.check_pid_running(saved_pid)
+                if watchdog_route is None:
+                    pid_exists = RipProcHelper.check_pid_running_linux(saved_pid)
                 print("pid exists and running " + str(pid_exists))
                 if pid_exists:
                     print("skip execution")
@@ -96,4 +97,4 @@ class RipProcHelper:
                         print("expired pid file successfully deleted")
                     else:
                         print("unhandled exception in file removal ")
-                        exit(5)
+                        exit(6)

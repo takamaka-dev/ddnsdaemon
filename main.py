@@ -30,6 +30,15 @@ def get_interfaces():
     rn.descr_interfaces(int_list)
 
 
+class Watchdog(Resource):
+    @staticmethod
+    def get():
+        try:
+            return {"my_pid": os.getpid()}, HTTPStatus.OK
+        except Exception as exc:
+            return {"error": "error retriving the pid " + str(exc)}, HTTPStatus.INTERNAL_SERVER_ERROR
+
+
 class CronJob(Resource):
     @staticmethod
     def get():
@@ -75,12 +84,13 @@ class CronJob(Resource):
                 j_data = json.loads(res.text)
                 return j_data, res.status_code
             else:
-                return {}, 500
+                return {}, HTTPStatus.INTERNAL_SERVER_ERROR
 
 
 api = Api(app)
 api.add_resource(RipWelcome.RipWelcome, '/')
 api.add_resource(CronJob, '/cronjob')
+api.add_resource(Watchdog, '/watchdog')
 
 if __name__ == "__main__":
     RipProcHelper.RipProcHelper.delete_invalid_pid_file_or_terminate()
