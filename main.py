@@ -1,4 +1,5 @@
 import configparser
+import os
 from http import HTTPStatus
 
 from flask import Flask, json
@@ -6,8 +7,10 @@ from flask_restful import Resource, Api
 
 import RipConf
 import RipNetInterfaces
+import RipProcHelper
 import RipRepack
 import RipWelcome
+import RipFileHelper
 
 rn = RipNetInterfaces.RipNetInterfaces
 rr = RipRepack.RipRequest
@@ -80,11 +83,13 @@ api.add_resource(RipWelcome.RipWelcome, '/')
 api.add_resource(CronJob, '/cronjob')
 
 if __name__ == "__main__":
-
+    RipProcHelper.RipProcHelper.delete_invalid_pid_file_or_terminate()
+    my_pid = os.getpid()
+    print("My pid is " + str(my_pid))
+    pid_path = RipProcHelper.RipProcHelper.get_pid_file_path_by_os()
+    RipFileHelper.RipFileHelper.new_pid_file(pid_file=pid_path, pid=my_pid)
     print("Mode " + props_conf['app']['debug'])
-
     print(props_conf['ddns_server']['nickname'])
-
     if props_conf['app'].getboolean('debug'):
         print("debug")
         app.run(props_conf['app_debug']['bind_address'], int(props_conf['app_debug']['bind_port']),
