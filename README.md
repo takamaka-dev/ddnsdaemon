@@ -225,7 +225,7 @@ We now make the first call to the daemon and if everything is correctly configur
 ### request
 
 ```bash
-curl -X GET http://192.168.0.194:13131/cronjob
+curl -X GET http://localhost:13131/cronjob
 ```
 
 ### response
