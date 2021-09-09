@@ -240,7 +240,7 @@ To save `CTRL + X` and than `Y`
 
 ## the "daemon" part
 
-We configure `corntab` to restart the server in the event of a malfunction or reboot.
+We configure `crontab` to restart the server in the event of a malfunction or reboot.
 
 It is also possible to create a service for `systemctl` but it is beyond the scope of this guide and would only apply to distros that use this service boot mode.
 
