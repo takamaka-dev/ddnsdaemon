@@ -49,13 +49,19 @@ class CronJob(Resource):
         gws_list = rn.list_gateways()
         internal_interfaces = rn.descr_interfaces(int_list)
         internal_gateways = rn.descr_gateways(gws_list)
-        my_ext_ip = rr.retrieve_my_ip(props_conf['ddns_server']['ip_retrieval_url'])
+        try:
+            my_ext_ip = rr.retrieve_my_ip(props_conf['ddns_server']['ip_retrieval_url'])
+            ip_and_interfaces_conf["ext_ip"] = my_ext_ip.exploded if my_ext_ip is not None else None
+        except Exception as exc:
+            msg = "Error retrieving public ip " + str(exc)
+            print(msg)
+            ip_and_interfaces_conf["ext_ip"] = None
+            ip_and_interfaces_conf["ext_ip_error"] = msg
         # print("Internal interfaces " + str(internal_interfaces))
         # print("Internal gateways " + str(internal_gateways))
         ip_and_interfaces_conf["interfaces"] = internal_interfaces
         ip_and_interfaces_conf["gateways"] = internal_gateways
         # print(my_ext_ip.exploded)
-        ip_and_interfaces_conf["ext_ip"] = my_ext_ip.exploded if my_ext_ip is not None else None
         ip_and_interfaces_conf["request-type"] = "update-machine-registration"
         ip_and_interfaces_conf["uuid"] = props_conf['ddns_server']['uuid']
         ip_and_interfaces_conf["nickname"] = props_conf['ddns_server']['nickname']
