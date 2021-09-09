@@ -102,16 +102,16 @@ sudo systemctl status crond.service
      CGroup: /system.slice/crond.service
              └─1623299 /usr/sbin/crond -n
 
-set 09 12:01:01 extra CROND[2177336]: (root) CMDEND (run-parts /etc/cron.hourly)
-set 09 13:01:01 extra CROND[2180537]: (root) CMD (run-parts /etc/cron.hourly)
-set 09 13:01:01 extra CROND[2180535]: (root) CMDEND (run-parts /etc/cron.hourly)
-set 09 14:01:01 extra CROND[2183754]: (root) CMD (run-parts /etc/cron.hourly)
-set 09 14:01:01 extra CROND[2183752]: (root) CMDEND (run-parts /etc/cron.hourly)
-set 09 15:01:01 extra CROND[2186925]: (root) CMD (run-parts /etc/cron.hourly)
-set 09 15:01:01 extra CROND[2186923]: (root) CMDEND (run-parts /etc/cron.hourly)
-set 09 16:01:01 extra CROND[2200738]: (root) CMD (run-parts /etc/cron.hourly)
-set 09 16:01:01 extra CROND[2200736]: (root) CMDEND (run-parts /etc/cron.hourly)
-set 09 16:48:01 extra crond[1623299]: (ddns) RELOAD (/var/spool/cron/ddns)
+set 09 12:01:01 my-server CROND[2177336]: (root) CMDEND (run-parts /etc/cron.hourly)
+set 09 13:01:01 my-server CROND[2180537]: (root) CMD (run-parts /etc/cron.hourly)
+set 09 13:01:01 my-server CROND[2180535]: (root) CMDEND (run-parts /etc/cron.hourly)
+set 09 14:01:01 my-server CROND[2183754]: (root) CMD (run-parts /etc/cron.hourly)
+set 09 14:01:01 my-server CROND[2183752]: (root) CMDEND (run-parts /etc/cron.hourly)
+set 09 15:01:01 my-server CROND[2186925]: (root) CMD (run-parts /etc/cron.hourly)
+set 09 15:01:01 my-server CROND[2186923]: (root) CMDEND (run-parts /etc/cron.hourly)
+set 09 16:01:01 my-server CROND[2200738]: (root) CMD (run-parts /etc/cron.hourly)
+set 09 16:01:01 my-server CROND[2200736]: (root) CMDEND (run-parts /etc/cron.hourly)
+set 09 16:48:01 my-server crond[1623299]: (ddns) RELOAD (/var/spool/cron/ddns)
 
 ```
 
