@@ -150,6 +150,8 @@ From the user's home, clone the latest version of the ddns daemon.
 cd
 # clone the last version of the software
 git clone https://github.com/takamaka-dev/ddnsdaemon.git
+# go to ddnsdaemon
+cd ddnsdaemon
 # create virtualenv
 python3.9 -m venv /home/ddns/ddnsdaemon/6FeetUnder
 # enable virtualenv
