@@ -80,6 +80,16 @@ yum install screen
 ```bash
 sudo dnf update
 sudo dnf install crontabs
+```
+
+#### crond FEDORA
+```bash
+dnf install cronie cronie-anacron
+```
+
+#### verify cron
+
+```bash
 sudo systemctl start crond.service
 sudo systemctl enable crond.service
 ```
