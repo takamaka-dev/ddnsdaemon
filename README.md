@@ -75,6 +75,12 @@ To be able to use this procedure, it is necessary to have a system-wide installa
 yum install screen
 ```
 
+### python
+
+```bash
+sudo dnf install python3.9
+```
+
 ### Git
 
 ```bash
