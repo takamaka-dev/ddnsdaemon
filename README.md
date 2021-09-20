@@ -10,6 +10,7 @@ A simple python script that gathers data from the clients on which it is install
 * enter the project directory `cd ddnsaemon`
 * setup the virtual env `python3.9 -m venv /home/ddns/ddnsdaemon/6FeetUnder`
 * activate the env
+* pip install netifaces
 * install the required packages:
   * `pip install wheel`
   * `pip install requests flask_restful http configparser waitress`
