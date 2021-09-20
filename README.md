@@ -12,7 +12,7 @@ A simple python script that gathers data from the clients on which it is install
 * activate the env
 * install the required packages:
   * `pip install wheel
-  *  pip install netifaces`
+  *  pip install netifaces`psutil
   * `pip install requests flask_restful http configparser waitress`
 * Call `python main.py` The first call will fail by creating stubs of the configuration files
 * update the `*.properties` files with the correct settings
