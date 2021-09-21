@@ -49,7 +49,6 @@ class CronJob(Resource):
         gws_list = rn.list_gateways()
         internal_interfaces = rn.descr_interfaces(int_list)
         internal_gateways = rn.descr_gateways(gws_list)
-        print(internal_gateways)
         try:
             my_ext_ip = rr.retrieve_my_ip(props_conf['ddns_server']['ip_retrieval_url'])
             ip_and_interfaces_conf["ext_ip"] = my_ext_ip.exploded if my_ext_ip is not None else None
