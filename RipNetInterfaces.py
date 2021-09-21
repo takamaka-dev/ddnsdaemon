@@ -49,7 +49,7 @@ class RipNetInterfaces:
         (psutil, "cpu_stats"),
         (psutil, "cpu_times", None, {"percpu": True}),
         (psutil, "cpu_times_percent", None, {"interval": 5, "percpu": True}),
-        (psutil, "disk_io_counters",  None, {"perdisk": True, "nowrap": True}),
+        (psutil, "disk_io_counters", None, {"perdisk": True, "nowrap": True}),
         (psutil, "disk_partitions", None, {"all": False}),  # only valid file system (skip cdrom...)
         # (psutil, "disk_usage", "/"),
         (psutil, "boot_time"),
@@ -127,6 +127,13 @@ class RipNetInterfaces:
                             "addr": gw_info["default"][0] if gw_info["default"][0] is not None else None,
                             "interface": gw_info["default"][1] if gw_info["default"][1] is not None else None
                         }
+                        if gw_info["default"] is dict:
+                            for key, value in gw_info["default"].items():
+                                d_gw = {
+                                    "addr": value[0] if value[0] is not None else None,
+                                    "interface": value[1] if value[1] is not None else None
+                                }
+
                         d_res["gw_default"] = d_gw
 
                     except Exception as exc:
