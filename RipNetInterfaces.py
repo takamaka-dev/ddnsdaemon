@@ -127,17 +127,21 @@ class RipNetInterfaces:
                             "addr": gw_info["default"][0] if gw_info["default"][0] is not None else None,
                             "interface": gw_info["default"][1] if gw_info["default"][1] is not None else None
                         }
-                        if gw_info["default"] is dict:
-                            for key, value in gw_info["default"].items():
-                                d_gw = {
-                                    "addr": value[0] if value[0] is not None else None,
-                                    "interface": value[1] if value[1] is not None else None
-                                }
 
                         d_res["gw_default"] = d_gw
 
                     except Exception as exc:
                         print("exception reading default gateway" + str(exc))
+                        print("TEST DICT: " + str(type(gw_info["default"]) is dict))
+                        if type(gw_info["default"]) is dict:
+                            print("PROVIAMO DICT")
+                            for key, value in gw_info["default"].items():
+                                print(str(value))
+                                d_res["gw_default"] = {
+                                    "addr": value[0] if value[0] is not None else None,
+                                    "interface": value[1] if value[1] is not None else None
+                                }
+                                print("IL VINCITORE E: " + str(d_res['gw_default']))
 
                 for k in RipNetInterfaces.InetSystemAttr.keys():
                     if RipNetInterfaces.InetSystemAttr[k] in gw_info:
